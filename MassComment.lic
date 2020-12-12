@@ -1,0 +1,48 @@
+# QUIET
+=begin
+	MassComment
+	Created By: Vailan
+	Date:       12-10-2020
+	
+	          author: Vailan (Vailan#0875 on discord)
+            game: GS
+            tags:spellup, mass, massies, blur, guard, color, spell
+        		required: Lich >= 4.6.4
+         		version: 2020.12.11.1
+	
+	This is a very small simple script to act as a companion ot AutoMassies to allow you to add a "Comment" to your annoucements (like when someone says they
+	will add on to what you are casting)
+	Syntax: masscomment And so-and-so is adding somespell
+	
+	
+	********change log***********
+	2020.11.20 - Initial publication
+	2020.12.10 - Added Additional Message to let people know someone else is casting something
+									
+	
+	
+	
+	***********todo**************
+	
+	*********known issues********
+	
+	
+	
+=end
+
+VERSION = "2020.12.11.1"
+
+if (variable[0])
+	if variable[1] =~ /clear/
+		UserVars.autoMassiesComment = ""
+	elsif variable[1] =~ /current/
+		echo "Current Value of UserVars.autoMassiesComment=\"#{UserVars.autoMassiesComment}\""
+	else
+	
+		UserVars.autoMassiesComment = variable[0]
+		echo "AutoMassiesComment is set to \"#{UserVars.autoMassiesComment}\""
+	end
+else
+	echo "You need to provide the comment you are adding to your AutoMassies Announcements"
+	echo "masscomment And so-and-so is adding somespell"
+end 

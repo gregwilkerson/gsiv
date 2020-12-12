@@ -1,0 +1,28 @@
+def checkRoom
+	if GameObj.npcs != nil
+		GameObj.npcs.each {|npc|
+			if  npc.type =~ /undead/ && npc.status !~ /dead/ && npc.status !~ /frozen/
+					holdUndead(npc)
+			
+			end
+		}
+	end
+end
+
+def holdRoom
+	checkRoom
+	exit
+end
+
+def holdUndead(target)
+	if  target.type =~ /undead/ && target.status !~ /dead/ && target.status !~ /frozen/
+		waitrt?
+		waitcastrt?
+		fput "target ##{target.id}"
+		fput "incant 301"
+	end
+
+end
+holdRoom
+# npc = GameObj.npcs.find { |npc| npc.type =~ /undead/ && npc.status !~ /dead/ && npc.status !~ /frozen/}; exit if npc.nil?; multifput "target ##{npc.id}", "incant 301"}
+
