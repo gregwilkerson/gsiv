@@ -1,3 +1,33 @@
+# QUIET
+=begin
+	HoldRoom
+	Created By: Vailan
+	Date:       12-11-2020
+	
+	          author: Vailan (Vailan#0875 on discord)
+            game: GS
+            tags:cleric,spell,undead
+        		required: Lich >= 4.6.4
+         		version: 2020.12.11.1
+	
+	This is a very small script that can be called from bigshot or the like or independantly and will try to Hold (301) allt he undead in the room
+	Syntax: ;holdroom
+	
+	
+	********change log***********
+	2020.12.11 - Initial publication
+	
+	
+	***********todo**************
+	Add Check to see if the player is actually a cleric
+	*********known issues********
+	
+	
+	
+=end
+
+VERSION = "2020.12.11.1"
+
 def checkRoom
 	if GameObj.npcs != nil
 		GameObj.npcs.each {|npc|
