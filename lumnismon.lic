@@ -2,13 +2,13 @@
 =begin
 	Lumnis Monitoring Tool!
 	Created By: Vailan
-	Date:       11-22-2020
+	Date:       12-12-2020
 	
 	          author: Vailan (Vailan#0875 on discord)
             game: GS
             tags:lumnis
         		required: Lich >= 4.6.4
-         		version: 2020.11.22.1
+         		version: 2020.12.12.1
 	
 	The purpose of this application is to query results of "lumnis info" and write them off to a CSV file located in your <lich>/data directory
 	and report back to the screen the list of all characters thet have run this, when it was last run, when their lumnis refresh will occur
@@ -37,7 +37,7 @@
 	2020.11.22 - Added Character Experience until next level, Estimated Field Experience (using midpoint between current status and next higher
 							 status), last known room number and room title. also added some column header titling and changed from echo to puts to output
 							 the screen and strip away the application header"
-								
+	2020.12.12 - Added Current Stats to to the CSV							
 
 	
 	
@@ -51,7 +51,7 @@
 
 =end
 
-VERSION = "2020.11.22.1"
+VERSION = "2020.12.12.1"
 
 if $frontend != "stormfront"
   respond ""
@@ -196,8 +196,98 @@ class CharacterLumnisInfo
 	def currentRoomTitle=(currentRoomTitle)
 		@currentRoomTitle = currentRoomTitle
 	end
+
+	def statStr
+		@statStr
+		#Stats.str
+	end
 	
+	def statStr=(statStr)
+		@statStr = statStr
+	end
 	
+	def statCon
+		@statCon
+		#Stats.con
+	end
+	
+	def statCon=(statCon)
+		@statCon = statCon
+	end
+	
+	def statDex
+		@statDex
+		#Stats.dex
+	end
+	
+	def statDex=(statDex)
+		@statDex = statDex
+	end
+	
+	def statAgi
+		@statAgi
+		#Stats.agi
+	end
+	
+	def statAgi=(statAgi)
+		@statAgi = statAgi
+	end
+	
+	def statDis
+		@statDis
+		#Stats.dis
+	end
+	
+	def statDis=(statDis)
+		@statDis = statDis
+	end
+	
+	def statAur
+		@statAur
+		#Stats.aur
+	end
+	
+	def statAur=(statAur)
+		@statAur = statAur
+	end
+	
+	def statLog
+		@statLog
+		#Stats.log
+	end
+	
+	def statLog=(statLog)
+		@statLog = statLog
+	end
+	
+	def statInt
+		@statInt
+		#Stats.int
+	end
+	
+	def statInt=(statInt)
+		@statInt = statInt
+	end
+	
+	def statWis
+		@statWis
+		#Stats.wis
+	end
+	
+	def statWis=(statWis)
+		@statWis = statWis
+	end
+	
+	def statInf
+		@statInf
+		#Stats.inf
+	end
+	
+	def statInf=(statInf)
+		@statInf = statInf
+	end
+	
+
 end
 
 def getMindCapacity
@@ -332,6 +422,17 @@ def getLumnisInfo(currentDateTime)
 	charInfo.mindPercent = getMindPercent()
 	charInfo.currentExp = Char.exp
 	charInfo.expNext = expUntilnext()
+	charInfo.statStr = Stats.str
+	charInfo.statCon = Stats.con
+	charInfo.statDex = Stats.dex
+	charInfo.statAgi = Stats.agi
+	charInfo.statDis = Stats.dis
+	charInfo.statAur = Stats.aur
+	charInfo.statLog = Stats.log
+	charInfo.statInt = Stats.int
+	charInfo.statWis = Stats.wis
+	charInfo.statInf = Stats.inf
+	
 	
 	#possible Lumnis Results
 	#Not Started
@@ -394,7 +495,21 @@ def writeCurrentValues(trackedLumnis)
 	fileOutputline += "Mind Capacity,"
 	fileOutputline += "Est Mind Percent,"
 	fileOutputline += "Current Exp,"
-	fileOutputline += "Exp TNL\n"
+	fileOutputline += "Exp TNL,"
+	fileOutputline += "Str,"
+	fileOutputline += "Con,"
+	fileOutputline += "Dex,"
+	fileOutputline += "Agi,"
+	fileOutputline += "Dis,"
+	fileOutputline += "Aur,"
+	fileOutputline += "Log,"
+	fileOutputline += "Int,"
+	fileOutputline += "Wis,"
+	fileOutputline += "Inf"
+	
+	
+	
+	fileOutputline += "\n"
 	if firstRow then 
 		if fileOutputline != "\n"
 			open(filenameOut,'w') do |f|
@@ -431,7 +546,18 @@ def writeCurrentValues(trackedLumnis)
 			fileOutputline += "#{charInfo.mindCapacity},"
 			fileOutputline += "#{charInfo.mindPercent},"
 			fileOutputline += "#{charInfo.currentExp},"
-			fileOutputline += "#{charInfo.expNext}"
+			fileOutputline += "#{charInfo.expNext},"
+			fileOutputline += "#{charInfo.statStr[0]},"
+			fileOutputline += "#{charInfo.statCon[0]},"
+			fileOutputline += "#{charInfo.statDex[0]},"
+			fileOutputline += "#{charInfo.statAgi[0]},"
+			fileOutputline += "#{charInfo.statDis[0]},"
+			fileOutputline += "#{charInfo.statAur[0]},"
+			fileOutputline += "#{charInfo.statLog[0]},"
+			fileOutputline += "#{charInfo.statInt[0]},"
+			fileOutputline += "#{charInfo.statWis[0]},"
+			fileOutputline += "#{charInfo.statInf[0]}"
+
 
 			
 			if firstRow then 
@@ -476,8 +602,21 @@ if(File.exist?("#{DATA_DIR}/lumnismon.csv"))
 					charInfo.mindCapacity = lineArray[12]
 					charInfo.mindPercent = lineArray[13]
 					charInfo.currentExp = lineArray[14]
-					charInfo.expNext = lineArray[15].gsub("\n","")
-					
+					if lineArray.length < 16
+						charInfo.expNext = lineArray[15].gsub("\n","")
+					else
+						charInfo.expNext = lineArray[15]
+						charInfo.statStr = lineArray[16]
+						charInfo.statCon = lineArray[17]
+						charInfo.statDex = lineArray[18]
+						charInfo.statAgi = lineArray[19]
+						charInfo.statDis = lineArray[20]
+						charInfo.statAur = lineArray[21]
+						charInfo.statLog = lineArray[22]
+						charInfo.statInt = lineArray[23]
+						charInfo.statWis = lineArray[24]
+						charInfo.statInf = lineArray[25].gsub("\n","")
+					end
 					trackedLumnis[charInfo.characterName] = charInfo
 				end
 				
